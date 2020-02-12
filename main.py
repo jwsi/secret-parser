@@ -1,7 +1,7 @@
 import os, re, argparse
 
 
-def parser(filename, secrets):
+def parser(filename, secret_name, secret_value):
     """
     Parse the UTF-8 file and replace secret references with values from secrets dictionary.
     """
@@ -10,9 +10,8 @@ def parser(filename, secrets):
         contents = fd.read()
     results = re.findall("(\${{ *secrets.\w+ *}})", contents)
     filtered = [re.findall("\${{ *secrets.(\w+) *}}", x)[0] for x in results]
-    for name, secret in secrets.items():
-        index = filtered.index(name)
-        contents = secret.join(contents.split(results[index]))
+    index = filtered.index(secret_name)
+    contents = secret_value.join(contents.split(results[index]))
     with open(filename, 'w') as fd:
         fd.write(contents)
 
@@ -20,6 +19,7 @@ def parser(filename, secrets):
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser("Parse GitHub Actions secrets")
     argparser.add_argument('filename', help='file to parse')
-    argparser.add_argument('secrets', help='dictionary of secrets')
+    argparser.add_argument('secret_name', help='name of secret to search for')
+    argparser.add_argument('secret_value', help='value of secret to replace name with')
     args = argparser.parse_args()
-    parser(args.filename, args.secrets)
+    parser(args.filename, args.secret_name, args.secret_value)

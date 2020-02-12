@@ -5,13 +5,16 @@ inputs:
   filename:
     description: 'file where secret key references should be parsed and replaced'
     required: true
-  secrets:
-    description: 'Dictionary of secrets to populate file with'
+  secret-name:
+    description: 'Name of secret to search for in the designated file'
+    required: true
+  secret-value:
+    description: 'Value of secret to replace reference with in designated file'
     required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args: ['${{ inputs.filename }}', '${{ inputs.secrets }}']
+  args: ['${{ inputs.filename }}', '${{ inputs.secret-name }}', '${{ inputs.secret-value }}']
 branding:
   icon: 'key'
   color: 'blue'
