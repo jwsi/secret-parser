@@ -1,0 +1,17 @@
+name: 'Secret Parser'
+author: 'James Webb'
+description: 'Replaces GitHub Actions secrets referenced in files with their raw values'
+inputs:
+  file:
+    description: 'File where secret key references should be parsed and replaced'
+    required: true
+  secrets:
+    description: 'Dictionary of secrets to populate file with'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args: ['${{ inputs.file }}', '${{ inputs.secrets }}']
+branding:
+  icon: 'key'
+  color: 'blue'
