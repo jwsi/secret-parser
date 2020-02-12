@@ -16,5 +16,5 @@ runs:
   image: 'Dockerfile'
   args: ['${{ inputs.filename }}', '${{ inputs.secret-name }}', '${{ inputs.secret-value }}']
 branding:
-  icon: 'key'
+  icon: 'lock'
   color: 'blue'
