@@ -11,7 +11,7 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args: ['${{ inputs.file }}', '${{ inputs.secrets }}']
+  args: ['${{ inputs.filename }}', '${{ inputs.secrets }}']
 branding:
   icon: 'key'
   color: 'blue'
