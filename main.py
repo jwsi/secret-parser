@@ -6,13 +6,13 @@ def parser(filename, secret_name, secret_value):
     Parse the UTF-8 file and replace secret references with values from secrets dictionary.
     """
     print("Attempting to parse file: " + filename)
-    with open(filename, 'r') as fd:
+    with open('/github/workspace/' + filename, 'r') as fd:
         contents = fd.read()
-    results = re.findall("(\${{ *secrets.\w+ *}})", contents)
-    filtered = [re.findall("\${{ *secrets.(\w+) *}}", x)[0] for x in results]
-    index = filtered.index(secret_name)
-    contents = secret_value.join(contents.split(results[index]))
-    with open(filename, 'w') as fd:
+    references = re.findall("(\${{ *secrets.\w+ *}})", contents)
+    reference_names = [re.findall("\${{ *secrets.(\w+) *}}", x)[0] for x in references]
+    index = reference_names.index(secret_name)
+    contents = secret_value.join(contents.split(references[index]))
+    with open('/github/workspace/' + filename, 'w') as fd:
         fd.write(contents)
 
 

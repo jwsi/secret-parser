@@ -3,7 +3,7 @@ author: 'James Webb'
 description: 'Replaces GitHub Actions secrets referenced in files with their raw values'
 inputs:
   filename:
-    description: 'file where secret key references should be parsed and replaced'
+    description: 'File where GitHub Actions Secrets references should be parsed and replaced'
     required: true
   secret-name:
     description: 'Name of secret to search for in the designated file'
