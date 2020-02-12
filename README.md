@@ -1,25 +1,41 @@
-# Submodule Checkout Action
+# Secret Parser Action
 
-This action checks out a private or public submodule hosted within GitHub.
+Replaces GitHub Actions secrets referenced in files with their raw values.
 
 ## Inputs
 
-### `ssh-key`
+### `filename`
 
-An optional SSH key used when checking out private submodules.
+**Required** File where GitHub Actions Secrets references should be parsed and replaced.
+
+### `secret-name`
+
+**Required** Name of secret to search for in the designated file.
+
+### `secret-value`
+
+**Required** Value of secret to replace reference with in designated file.
 
 ## Example usage
 
-#### Public Submodules:
+1. Create a file in the repository which references GitHub actions secret. For example, `test.json`:
 
 ```
-uses: jwsi/submodule-checkout@v1
+{
+  "important_value" : "${{ secrets.important_value }}"
+}
 ```
 
-#### Private Submodules:
+2. Create a GitHub action secret with a key of: `important_value`
+
+3. Add the following to your workflow configuration file (parameters shown below are for this demonstration only):
 
 ```
-uses: jwsi/submodule-checkout@v1
+uses: jwsi/secret-parser@v1
 with:
-  ssh-key: '${{ secrets.DEPLOY_KEY }}'
+  filename: test.json
+  secret-name: important_value
+  secret-value: ${{ secrets.important_value }}
 ```
+
+4. During workflow execution, `test.json` (or a file of one's choosing) will be parsed and the reference to a GitHub secret will be replaced with the corresponding secret value.
